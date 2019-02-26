@@ -4,5 +4,6 @@
 2. (latest) pseudo_haploid_pulldown.py: random pseudo-haploid calls from bcftools mpileup.
 
 TO DO: 
-- Option: disable strand ambiguous SNPs removal
-- Option: complete I/O
+- pulldown option: disable strand ambiguous SNPs removal (useful when allele0 are always on the forward strand)
+- pulldown option: complete I/O
+- window-f3: window-based f3 for selection scan
