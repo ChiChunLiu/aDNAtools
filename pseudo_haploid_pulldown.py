@@ -115,7 +115,7 @@ if __name__== "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('-s', '--snp', type = str, default = "", help = "biallelic SNP table")
     parser.add_argument('-p', '--pileup', type = str, default = "", help = "bcftools mpileup")
-    parser.add_argument('-o', '--output', type = str, default = "", help = "output")   
+    parser.add_argument('-o', '--output', type = str, default = "", help = "output prefix")   
     args = parser.parse_args()
         
     random_draw(args.pileup, args.snp, args.output)
