@@ -121,6 +121,7 @@ def random_draw(pileup, target, output_file, progress = True, remove_ambiguous_s
             snp_counter = 0
             for s in snps:
                 
+                # progress bar
                 if progress:
                     snp_counter += 1
                     if snp_counter%1000 == 0:
@@ -144,10 +145,11 @@ def random_draw(pileup, target, output_file, progress = True, remove_ambiguous_s
                     matched_alt = match_allele[REF]
 
                     # locate alternative allele in the target file
+                    # add one for REF
                     if matched_alt in ALT.split(','):
-                        matched_alt_index = ALT.split(',').index(matched_alt)
+                        matched_alt_index = ALT.split(',').index(matched_alt) + 1
                     else:
-                        matched_alt_index = 0
+                        matched_alt_index = 1
 
                     # check allele swap
                     if (REF == target_a0) | (REF == base_complement[target_a0]):
