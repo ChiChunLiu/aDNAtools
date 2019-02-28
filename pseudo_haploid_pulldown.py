@@ -6,23 +6,29 @@ import sys
 import gzip
 
 '''
-Pull pileup file into pseudo-haploid data in eigenstrat format.
+Pull pileup file down into pseudo-haploid data in eigenstrat format.
+Bcftools mpileup takes a while (~1hr for array data), and pull-down
+takes only a few minutes. The script streams through both vcf and 
+target SNP files, so it's memory efficient.
 
-Usage: 
+Usage:  
 
 bcftools mpileup --ignore-RG -B -q30 -Q30 \
--R illumina_oldarray_merged.pos \
--f /project/jnovembre/data/external_public/reference_genomes/hs37d5.fa \
--b aACA_bam.txt \
+-R file_name.pos \
+-f hs37d5.fa \
+-b bam.txt \
 -a AD,DP | \
-bcftools norm -m-both -o illumina_oldarray_merged.mpileup.txt
+bcftools norm -f hs37d5.fa -Oz -o file_name.mpileup.vcf.gz
 
 python random_draw.py \
--s /scratch/midway2/chichun/tmp_eigen_merge/illumina_oldarray_merged.pos -p \
-/scratch/midway2/chichun/tmp_eigen_merge/illumina_oldarray_merged.mpileup.vcf.gz \
--o /scratch/midway2/chichun/tmp_eigen_merge/illumina_oldarray_merged.aACA
-'''
+-s some_path/file_name.pos \
+-p some_path/file_name.mpileup.vcf.gz \
+-o dest/file_name.ancient
 
+REMEMBER:
+ - B flag disables probabilistic realignment for the computation
+   of base alignment quality (BAQ). 
+'''
 
 base_complement = {"A": "T", "T": "A", "C": "G", "G": "C"}
 
