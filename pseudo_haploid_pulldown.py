@@ -2,9 +2,12 @@
 
 import numpy as np
 import argparse
+import sys
 import gzip
 
 '''
+Pull pileup file into pseudo-haploid data in eigenstrat format.
+
 Usage: 
 
 bcftools mpileup --ignore-RG -B -q30 -Q30 \
@@ -22,6 +25,26 @@ python random_draw.py \
 
 
 base_complement = {"A": "T", "T": "A", "C": "G", "G": "C"}
+
+def progressBar(bar_length, value, total):
+    '''
+    Prints a simple progress bar denoting progress in a for loop
+    From Alan. Alan did not do the weird face
+    '''
+
+    frac = value/total
+    prog = 'ʕ·ᴥ·ʔ ' * int(round(frac * bar_length))
+    space = '      ' * (bar_length - len(prog)//6)
+
+    sys.stdout.write('\rProgress: [{0}] {1:2.2f}%'.format('ʕ·ᴥ·ʔ ' + prog + space, frac*100))
+    sys.stdout.flush()
+
+    if frac >= 1:
+        print('\n')
+    
+def sum_line(file):
+    with open(file) as f:
+        return sum(1 for _ in f)
 
 def vcf_open(filename):
     if filename.endswith('.gz'):
@@ -63,7 +86,7 @@ def next_vcf_line(vcf, skip_ambiguous_snp = True):
         return 'EOF'
 
 
-def random_draw(pileup, target, output_file, remove_ambiguous_snp = True):
+def random_draw(pileup, target, output_file, progress = True, remove_ambiguous_snp = True):
     '''
     Draw a random allele representation from reads at target position,
     and write it as eigenstrat format.
@@ -80,15 +103,23 @@ def random_draw(pileup, target, output_file, remove_ambiguous_snp = True):
     open_vcf = vcf_open(pileup)
     samples = get_samples(pileup)
     n = len(samples)
-    
+    nline_target = sum_line(target)
+
     with open(output_file + '.geno', 'a') as geno, open(output_file + '.snp', 'a') as snp, open(output_file + '.ind', 'a') as ind:
         with open_vcf(pileup, 'r') as vcf, open(target, 'r') as snps:
-
+            
             entry = next_vcf_line(vcf)
             CHROM, POS, ID, REF, ALT, QUAL, FILTER, INFO = entry[:8]
             CHROM, POS = int(CHROM), int(POS)
             
+            snp_counter = 0
             for s in snps:
+                
+                if progress:
+                    snp_counter += 1
+                    if snp_counter%1000 == 0:
+                        progressBar(20, snp_counter, nline_target)
+                        
                 target_id, target_chr, target_pos, target_a0, target_a1 = s.strip().split('\t')
                 # check ambiguos strand: TRUE -> next target SNP
                 if remove_ambiguous_snp:
