@@ -20,7 +20,7 @@ bcftools mpileup --ignore-RG -B -q30 -Q30 \
 -a AD,DP | \
 bcftools norm -f hs37d5.fa -Oz -o file_name.mpileup.vcf.gz
 
-python random_draw.py \
+python pseudo_haploid_pulldown.py \
 -s some_path/file_name.pos \
 -p some_path/file_name.mpileup.vcf.gz \
 -o dest/file_name.ancient
