@@ -3,6 +3,8 @@
 
 ### File Convertion
 1. plink2eigenstrat.py
+2. fixed2a0a1.py
+  - Fill in another allele on fixed positions based on an anchor file. Remove strand ambiguous variants.
 
 ### Variant Calling
 2. pseudo_haploid_pulldown.py
