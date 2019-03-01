@@ -20,6 +20,7 @@ def fam2ind(fam):
     sample.loc[:,'sex'] = [utl.tokenize_sex(s) for s in sample['sex'].values]
     return sample
 
+
 def bim2snp(bim):
     bim = bim[['snp','chrom','cm','pos','a0','a1']].copy()
     bim.loc[:,'chrom'] = bim.chrom.astype(int)
@@ -32,8 +33,10 @@ def bim2snp(bim):
 if __name__== "__main__":
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('-b', '--input', type = str, default = "", help = "prefix for plink files")
+    parser.add_argument('-b', '--input', type = str, default = "", help = "prefix for bed/bim/fam")
     parser.add_argument('-o', '--output', type = str, default = "", help = "prefix for outputs")
+    parser.add_argument('-p', '--population', type = str, default = "", help = "one population")
+    parser.add_argument('-P', '--ind2pop', type = str, default = "", help = "list of populations")
     args = parser.parse_args()
 
     (bim, fam, geno) = read_plink(args.input)
@@ -44,6 +47,18 @@ if __name__== "__main__":
     gt = gt[snp.index,:]
     
     sample = fam2ind(fam)
+    if (args.population != '') & (args.ind2pop != ''):
+        raise Exception('flag -p and -P cannot be used together.')
+    elif args.population is not '':
+        sample.loc[:,'population'] = args.population
+    elif args.ind2pop is not '':
+        pops = []
+        with open(args.ind2pop) as pfile:
+            for p in pfile:
+                p = p.strip()
+                pops.append(p)
+        sample.loc[:,'population'] = pops
+
     # write files
     out = utl.eigenstrat(geno = gt,
                          snp = snp,
