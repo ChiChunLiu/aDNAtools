@@ -6,6 +6,15 @@ import pandas as pd
 import numpy as np
 import utils as utl
 
+'''
+Usage
+
+python aDNAtools/plink2eigenstrat.py -b plink_prefix -o eigenstrat_prefix -p / -P population_label
+current implementation reads the whole genotype matrix into memory. It takes ~5G for 300 samples on 
+the OmniExpress array (1M variants)
+
+'''
+
 
 def numpy2eigen_geno(geno):
     gt = geno.compute()
