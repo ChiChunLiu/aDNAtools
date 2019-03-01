@@ -1,7 +1,9 @@
 # aDNAtools
 ## Scripts for analyzing ancient DNA
-1. (old) mpileup2vcf.py: random pseudo-haploid calls from bcftools mpileup.
-2. (latest) pseudo_haploid_pulldown.py: random pseudo-haploid calls from bcftools mpileup.
+1. plink2eigenstrat.py:
+  - file convertion
+2. pseudo_haploid_pulldown.py: 
+  - random pseudo-haploid calls from bcftools mpileup.
 
 TO DO: 
 - pulldown option: disable strand ambiguous SNPs removal (useful when allele0 are always on the forward strand)
