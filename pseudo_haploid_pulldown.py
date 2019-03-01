@@ -190,7 +190,8 @@ def random_draw(pileup, target, output_file, progress = True, remove_ambiguous_s
                     snp.write('\t'.join([target_id, str(target_chr), '0', str(target_pos), target_a0, target_a1]) + '\n')
                 
                 # mpileup position is before target position. Should never happen except at the end of target files
-                else: 
+                else:
+                    GT_pseudo = np.repeat('9', n)
                     geno.write(''.join(GT_pseudo) + '\n')
                     snp.write('\t'.join([target_id, str(target_chr), '0', str(target_pos), target_a0, target_a1]) + '\n')
 
