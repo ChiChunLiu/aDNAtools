@@ -5,8 +5,7 @@
 1. plink2eigenstrat.py
 
 ### Variant Calling
-2. pseudo_haploid_pulldown.py: 
-  - random pseudo-haploid calls from bcftools mpileup.
+2. pseudo_haploid_pulldown.py
 
 TO DO: 
 - plink2eigenstrat.py: chunk chromosome to make it memory efficient
