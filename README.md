@@ -15,6 +15,6 @@ TO DO:
 - pulldown option: support sex and population labels
 - window-f3: window-based f3 for selection scan
 
-# Miscellaneous
+### Miscellaneous
 3. fixed2a0a1.py (for ancestryMap files)
   - Fill in another allele on fixed positions based on an anchor file. It also Removes strand ambiguous variants.
