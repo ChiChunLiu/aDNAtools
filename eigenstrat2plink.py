@@ -16,6 +16,7 @@ def digit2string_sex(sex, token_dict):
     else:
         return '0'
 
+# see itertools package
 def grouper(iterable, n, fillvalue= '2'):
     "Collect data into fixed-length chunks or blocks"
     # grouper('ABCDEFG', 3, '0') --> ABC DEF G00"
@@ -83,7 +84,7 @@ def snp2bim(snp, bim):
 if __name__== "__main__":
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('-b', '--input', type = str, default = "", help = "prefix for ancestrymap input")
+    parser.add_argument('-e', '--input', type = str, default = "", help = "prefix for ancestrymap input")
     parser.add_argument('-o', '--output', type = str, default = "", help = "prefix for plink output")
     parser.add_argument('-p', '--population', type = str, default = "", help = "fill in single population")
     parser.add_argument('-P', '--ind2pop', type = str, default = "", help = "list of populations")
