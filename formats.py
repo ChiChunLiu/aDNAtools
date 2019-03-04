@@ -1,13 +1,13 @@
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-
 import sys
+import os
 import itertools as it
 import pandas as pd
 import numpy as np
 #import pysam
 
+# from ancpy project on the Novembre Lab
+# To be removed after the repo stablizes
+# https://github.com/NovembreLab/ancpy
 
 class Genotypes(object):
     """A class for storing genotype data which at its core 
@@ -55,7 +55,7 @@ class Genotypes(object):
         dictionary of strand ambiguous alleles 
         combinations as keys and bools as values
     """
-    def __init__(self, Y=None, snp_df=None, inds=None, clst = None, build='hg19'):
+    def __init__(self, Y=None, snp_df=None, inds=None, clst=None, population_df=None, build='hg19'):
 
         # p x n genotype matrix
         self.Y = Y
@@ -69,8 +69,12 @@ class Genotypes(object):
         # individual information
         self.clst = clst
 
-        # 
+        # individual information
+        self.population_df = population_df
+        
+        # genome build
         self.build = build
+        
         # below is adapted from 
         # https://github.com/bulik/ldsc/blob/master/munge_sumstats.py
 
@@ -86,7 +90,8 @@ class Genotypes(object):
                                          if x[0] != x[1]} 
 
     def remove_chrom_prefix(self):
-        """Remove the chromsome prefix from the snp_df
+        """
+        Remove the chromsome prefix from the snp_df
         this helps for making datasets consistent before 
         merging
         """
@@ -101,7 +106,8 @@ class Genotypes(object):
         return(idx)
 
     def remove_rare_common(self, eps):
-        """Removes SNPs that are too rare or 
+        """
+        Removes SNPs that are too rare or 
         too common given some threshold eps
 
         Arguments
@@ -118,8 +124,10 @@ class Genotypes(object):
         return(idx)
     
     def filter_bad_snps(self, eps):
-        """Removes SNPs with too many missing
+        """
+        Removes SNPs with too many missing
         entries
+        
         Arguments
         ---------
         eps : float
@@ -134,7 +142,8 @@ class Genotypes(object):
         return(idx)
 
     def remove_strand_ambiguous_alleles(self):
-        """Removes any snps that have alleles that
+        """
+        Removes any snps that have alleles that
         are strand ambiguous. 
 
         TODO: speed this up its currently a bit slow
@@ -149,7 +158,8 @@ class Genotypes(object):
         return(idx)
     
     def binarize(self, scheme = '02'):
-        """Convert genotype data to binary
+        """
+        Convert genotype data to binary
         by mapping 2->1 (2), 0->0 and randomly 
         selecting a 0 or 1 (2) for heterozygotes.
         This emulates the read sampled data found
@@ -171,7 +181,8 @@ class Genotypes(object):
         
 
     def normalize(self, scale, impute = True):
-        """Mean center the data so each snp has mean 0. 
+        """
+        Mean center the data so each snp has mean 0. 
         If scale true then scale each SNP to have var 1. 
         If impute is true it sets missing sites to 0. i.e. 
         the approx mean. Note for all computations we 
@@ -218,49 +229,6 @@ class Genotypes(object):
         
         TODO
         
-        """
-        pass
-    
-    def merge(self, gt_obj, remove_ambiguous = False):
-        
-        # check reference genome builds
-        builds = set([g.build for g in Genotypes])
-        if len(builds) > 1:
-               raise ValueError('Objects are of different builds')
-
-        # get unique positions in any object
-        #unique_ids = []
-        #for g in Genotypes:
-        #    unique_ids.extend(g.CHROM.astype(str) + g.POS.astype(str))
-        #unique_ids = list(set(unique_ids))
-    
-        # concat ind list and cluster
-        new_clst = self.clst.append(gt_obj.clst, ignore_index=True)
-        new_inds = self.inds + gt_obj.inds
-        
-        # outer join snp dataframes and keep both indices
-        new_snp_df = self.snp_df.reset_index().merge(gt_obj.snp_df.reset_index(),
-                                        on = ['CHROM', 'POS'],
-                                        how="outer")
-        idx = new_snp_df[['index_x', 'index_y']]
-        
-        new_snp_df = new_snp_df[['SNP_x', 'CHROM', 'CM_POS_x', 'POS', 'A1_x', 'A2_x']].copy()
-        new_snp_df.columns = ['SNP', 'CHROM', 'CM_POS', 'POS', 'A1', 'A2']
-        # deal with strand-flip
-        
-        
-        # concat geno
-        
-        return Genotypes(Y=None, snp_df=new_snp_df, inds=new_inds, clst=new_clst)
-
-    def write_eigenstrat(self, prefix):
-        """
-        To do: write object to ind snp geno files
-        """
-        pass
-    def write_vcf(self, prefix):
-        """
-        To do: write object to a vcf file
         """
         pass
 
@@ -391,7 +359,7 @@ class PackedAncestryMap(AncestryMap):
         # convert to float to allow missing data stored as nan
         self.Y = self.Y.astype(np.float)
 
-        # set missing data to -1
+        # set missing data to nan
         self.Y[self.Y == 3] = np.nan
 
 class UnpackedAncestryMap(AncestryMap):
