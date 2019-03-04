@@ -4,13 +4,11 @@ import numpy as np
 import itertools as it
 
 '''
-
-Eigenstrat I/O utilities
-
+Complementary utilities to ancpy from the NovembreLab
 '''
 
 class eigenstrat(object):
-    """
+    """Eigenstrat I/O utilities
     """
     def __init__(self, geno=None, snp=None, ind=None):
 
@@ -69,7 +67,57 @@ class eigenstrat(object):
         if list(self.ind.columns.values) != ['sample', 'sex', 'population']:
             raise Exception('please reformat your ind file')
         self.ind.to_csv(prefix + '.ind', sep='\t', index = False, header = False)
+    
 
+class vcf(object):
+    """
+    Simple VCF I/O utilities
+    """
+    def __init__(self, geno=None, snp_df=None, inds=None):
+
+        # p x n genotype matrix
+        self.geno = geno
+        # DataFrame of SNP level information
+        self.snp_df = snp_df
+        # list of individual ids
+        self.inds = inds
+        self.gt2string = {0: "0/0", 1: "0/1", 2: "1/1", np.nan: "./."}
+
+    def __write_rec(snp_info, gt):
+        gt = [self.gt2string[g] for g in gt]
+        rec = '\t'.join(map(str, snp_info)) + '\t'
+        rec += '\t'.join([".", ".", ".", "GT"]) + '\t'
+        rec += '\t'.join(gt)
+        vcf_print(rec)
+
+    def __print_header(samples):
+        self.__vprint("##fileformat=VCFv4.2", overwrite = True)
+        self.__vprint("##Source=ancpy util extension")
+        self.__vprint("##FORMAT=<ID=GT,Number=1,Type=String,Description=\"Genotype\">")
+        s = '\t'.join(samples)
+        self.__vprint("#CHROM\tPOS\tID\tREF\tALT\tQUAL\tFILTER\tINFO\tFORMAT\t" + s)
+
+    def __vprint(x, overwrite = False):
+        if overwrite:
+            print(x, file = open(prefix, "w"))
+        else:
+            print(x, file = open(prefix, "a"))  
+
+    def write_vcf(self, prefix):
+        
+        self.__print_header(self.inds)
+        for index, snp in self.snp_df.iterrows():
+            snp_info = snp[["CHROM", "POS", "ID", "A1", "A2"]].tolist()
+            snp_info = [str(i) for i in snp_info]
+            gt = self.geno[index,:]
+            self.__write_rec(snp_info, gt)
+
+
+#class plink(geno, snp, ind):
+# TBD   
+
+
+        
         
 '''
 
