@@ -68,6 +68,11 @@ for index, variant in snp_df_merged.iterrows():
     if (variant['a0_df2'] != hom) & (variant['a1_df2'] != hom):
         A0.append(variant['a0_df2'])
         A1.append(variant['a1_df2'])
+
+    elif (variant['a0_df2'] == hom) & (variant['a1_df2'] == hom):
+        A0.append('NA')
+        A1.append('NA') 
+
     else:
         # check ambiguity form data 1
         allele_cb = allele_combination((variant['a0_df1'], variant['a1_df1']))
