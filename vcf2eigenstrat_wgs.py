@@ -1,37 +1,12 @@
 #!/bin/python
+import os
+import argparse
 from numpy import where
 from pysam import VariantFile, FastaFile
+from utils import allele_combination, any_match
 
 base_complement = {"A": "T", "T": "A", "C": "G", "G": "C"}
 vcf2eigen_geno_dic = {(0, 0): '2', (0, 1): '1', (1, 0): '1', (1, 1): '0', (-1, -1): '9'}
-
-def allele_combination(alleles):
-    '''
-    argument:
-    ---------
-    (a0, a1)
-    
-    return:
-    -------
-    alleles combitation: list
-    [(a0, a1), (a0_c, a1_c), (a1, a0), (a1_c, a0_c)]
-    '''
-    alleles_c = tuple([base_complement[a] for a in alleles])
-    return [alleles, alleles_c, alleles [::-1], alleles_c[::-1]]
-
-def any_match(a0, a_list):
-    '''
-    compare a0 to a list of alleles
-    if there is matching pairs in a0 == a_list[i]
-    
-    e.g 
-    list(zip(('A','0'), ('A','C') )) 
-            [('A', 'A'), ('0', 'C')] is TRUE
-    '''
-    match = []
-    for a in a_list:
-        match.append(any(x == y for x, y in zip(a0, a)))
-    return match
 
 def strip_target(target):
     target = target.strip().split()
@@ -49,7 +24,7 @@ parser.add_argument('-o', '--output', type = str, default = "", help = "output p
 args = parser.parse_args()
 
 
-if os.path.exists(args.out + '.geno'):
+if os.path.exists(args.output + '.geno'):
     raise Exception('outputs have already exsited.')
 
 vcf = VariantFile(args.vcf)
@@ -58,7 +33,7 @@ ref_fa = FastaFile(args.reference)
 nsample = len((vcf.header.samples))
 
 
-with open(args.target, 'r') as target, open(args.out + '.snp', 'a') as snp, open(args.out + '.geno', 'a') as geno:
+with open(args.target, 'r') as target, open(args.output + '.snp', 'a') as snp, open(args.output + '.geno', 'a') as geno:
     
     for t in target:
         target_chrom, target_pos, target_alleles, allele_cb = strip_target(t)

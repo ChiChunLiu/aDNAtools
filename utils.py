@@ -171,3 +171,32 @@ def space2underscore(x):
         input with underscores inplace of spaces
     '''
     return x.replace(" ", "_")
+
+
+def allele_combination(alleles):
+    '''
+    argument:
+    ---------
+    (a0, a1)
+    
+    return:
+    -------
+    alleles combitation: list
+    [(a0, a1), (a0_c, a1_c), (a1, a0), (a1_c, a0_c)]
+    '''
+    alleles_c = tuple([base_complement[a] for a in alleles])
+    return [alleles, alleles_c, alleles [::-1], alleles_c[::-1]]
+
+def any_match(a0, a_list):
+    '''
+    compare a0 to a list of alleles
+    if there is matching pairs in a0 == a_list[i]
+    
+    e.g 
+    list(zip(('A','0'), ('A','C') )) 
+            [('A', 'A'), ('0', 'C')] is TRUE
+    '''
+    match = []
+    for a in a_list:
+        match.append(any(x == y for x, y in zip(a0, a)))
+    return match
