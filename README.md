@@ -14,6 +14,7 @@ TO DO:
 - pulldown option: complete I/O. Especially into vcf and packedAncestry formats
 - pulldown option: support sex and population labels
 - window-f3: window-based f3 for selection scan
+- util: merge eigenstrat files based on position
 
 ### Miscellaneous
 1. fixed2a0a1.py (for eigenstrat files)
