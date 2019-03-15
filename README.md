@@ -15,6 +15,7 @@ TO DO:
 - pulldown option: support sex and population labels
 - window-f3: window-based f3 for selection scan
 - util: merge eigenstrat files based on position
+- vcf2eigenstrat: create an .ind file
 
 ### Miscellaneous
 1. fixed2a0a1.py (for eigenstrat files)
