@@ -3,10 +3,10 @@ import os
 import argparse
 from numpy import where
 from pysam import VariantFile, FastaFile
-from utils import allele_combination, any_match
+from utils import allele_combination, any_match, base_complement
 
-base_complement = {"A": "T", "T": "A", "C": "G", "G": "C"}
-vcf2eigen_geno_dic = {(0, 0): '2', (0, 1): '1', (1, 0): '1', (1, 1): '0', (-1, -1): '9'}
+
+vcf2eigen_geno_dic = {(0, 0): '2', (0, 1): '1', (1, 0): '1', (1, 1): '0', (-1, -1): '9', (None, None): '9'}
 
 def strip_target(target):
     target = target.strip().split()
