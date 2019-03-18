@@ -53,6 +53,6 @@ with open(args.target, 'r') as target, open(args.output + '.snp', 'a') as snp, o
                 if alleles in allele_cb:
                     gt = [vcf2eigen_geno_dic[s['GT']] for s in rec.samples.values()]
                     # deal with no variant ID
-                    vid = (rec.chrom + str(rec.pos)) if rec.id is None else rec.id
+                    vid = (rec.chrom + ':' + str(rec.pos)) if rec.id is None else rec.id
                     snp.write('\t'.join([vid, rec.chrom, '0', str(rec.pos), rec.ref, rec.alts[0]]) + '\n')
                     geno.write(''.join(gt) + '\n')
