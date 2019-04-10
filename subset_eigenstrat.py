@@ -51,7 +51,7 @@ if __name__== "__main__":
 
     parser = argparse.ArgumentParser()
     parser.add_argument('-i', '--input', type = str, default = "", help = "prefix for inputs")
-    parser.add_argument('-r', '--seed', type = str, default = "", help = "prefix for ancestrymap input")
+    parser.add_argument('-r', '--seed', type = str, default = "", help = "random seed")
     parser.add_argument('-T', '--table', type = str, default = "", help = "population subset table. e.g. UpperMustang 30")
     parser.add_argument('-S', '--sample', type = str, default = "", help = "samples to keep")
     parser.add_argument('-P', '--population', type = str, default = "", help = "populations to keep")
@@ -82,7 +82,7 @@ if __name__== "__main__":
         pops = read_kept_population(args.population)
         clst_subset = clst[clst['population'].isin(pops)]
         
-    clst_subset.to_csv(args.output, sep = '\t', index = False, header = False)
+    clst_subset.to_csv(args.output + '.ind', sep = '\t', index = False, header = False)
     keep_index = clst_subset.index
     
     with open(args.input + '.geno', 'r') as geno, open(args.output + '.geno', 'a') as geno_out:
