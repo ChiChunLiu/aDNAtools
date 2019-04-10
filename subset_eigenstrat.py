@@ -82,7 +82,7 @@ if __name__== "__main__":
         pops = read_kept_population(args.population)
         clst_subset = clst[clst['population'].isin(pops)]
         
-    clst_subset.to_csv(args.output, sep = '\t', index = False, header = False)
+    clst_subset.to_csv(args.output + '.ind', sep = '\t', index = False, header = False)
     keep_index = clst_subset.index
     
     with open(args.input + '.geno', 'r') as geno, open(args.output + '.geno', 'a') as geno_out:

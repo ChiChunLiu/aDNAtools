@@ -172,6 +172,7 @@ def space2underscore(x):
     '''
     return x.replace(" ", "_")
 
+base_complement = {"A": "T", "T": "A", "C": "G", "G": "C"}
 
 def allele_combination(alleles):
     '''
