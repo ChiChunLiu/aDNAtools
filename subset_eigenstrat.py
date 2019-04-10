@@ -51,7 +51,7 @@ if __name__== "__main__":
 
     parser = argparse.ArgumentParser()
     parser.add_argument('-i', '--input', type = str, default = "", help = "prefix for inputs")
-    parser.add_argument('-r', '--seed', type = str, default = "", help = "prefix for ancestrymap input")
+    parser.add_argument('-r', '--seed', type = str, default = "", help = "random seed")
     parser.add_argument('-T', '--table', type = str, default = "", help = "population subset table. e.g. UpperMustang 30")
     parser.add_argument('-S', '--sample', type = str, default = "", help = "samples to keep")
     parser.add_argument('-P', '--population', type = str, default = "", help = "populations to keep")
