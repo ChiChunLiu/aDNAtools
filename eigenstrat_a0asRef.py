@@ -8,12 +8,11 @@ from utils import allele_combination, base_complement
 '''
 The script convert eigenstrat files a0 alllele to reference 
 '''
-
-
 parser = argparse.ArgumentParser()
 parser.add_argument('-i', '--input', type = str, default = "", help = "input prefix")
 parser.add_argument('-f', '--reference', type = str, default = "", help = "fasta reference file")
 parser.add_argument('-o', '--output', type = str, default = "", help = "output prefix")
+args = parser.parse_args()
 
 flip_dict = {'0': '2', '2': '0', '1': '1', '9': '9'}
 def flip_geno(geno):
