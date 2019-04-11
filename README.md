@@ -29,3 +29,6 @@ TO DO:
 
 4. eigenstratQC.py
   - compute fraction of missing entries per individual and per snp
+
+5. eigenstrat_a0asRef.py
+  - set a0 in eigenstrat file as reference
