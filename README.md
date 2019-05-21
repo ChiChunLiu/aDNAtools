@@ -4,6 +4,8 @@
 ### File Convertion
 1. plink2eigenstrat_new.py
 2. eigenstrat2plink.py
+3. vcf2eigenstrat_wgs.py
+  - convert vcf to eigenstrat files with non-present positions filled as fixed as REF
 
 ### Eigenstrat Utils
 1. eigenstrat_fixed2a0a1.py (for eigenstrat files)
@@ -27,8 +29,6 @@
 ### Variant Calling
 1. pseudo_haploid_pulldown.py
   - pull down bcftools mpileup files into eigenstrat files
-2. vcf2eigenstrat_wgs.py
-  - convert vcf to eigenstrat files with non-present positions filled as fixed as REF
 
 ### Python utilities
 1. util/format
