@@ -37,19 +37,17 @@ with open(args.target, 'r') as target, open(args.output + '.snp', 'a') as snp, o
     
     for t in target:
         target_chrom, target_pos, target_alleles, allele_cb = strip_target(t)
-        
-        recs = vcf.fetch(target_chrom, target_pos -1, target_pos)
-        # record not exisits in vcf
-        if all(False for _ in recs):
-            fasta_ref = ref_fa.fetch(target_chrom, target_pos -1, target_pos)
-            if fasta_ref in list(base_complement.keys()):
-                # find matched alt allele
-                matched_alleles = allele_cb[where(any_match((fasta_ref, '0'), allele_cb))[0][0]]
-                snp.write('\t'.join(['.', target_chrom, '0', str(target_pos), fasta_ref, matched_alleles[1]]) + '\n')
-                geno.write('2' * nsample + '\n')
-                
-        else:
-            for rec in vcf.fetch(target_chrom, target_pos -1, target_pos):
+       
+        for rec in vcf.fetch(target_chrom, target_pos -1, target_pos):
+            # record exisits in vcf
+            if not rec.chrom:
+                fasta_ref = ref_fa.fetch(target_chrom, target_pos -1, target_pos)
+                if fasta_ref in list(base_complementent.keys()):
+                    # find matched alt allele
+                    matched_alleles = allele_cb[where(any_match((fasta_ref, '0'), allele_cb))[0][0]]
+                    snp.write('\t'.join(['.', target_chrom, '0', str(target_pos), fasta_ref, matched_alleles[1]]) + '\n')
+                    geno.write('2' * nsample + '\n')
+            else:
                 # skip if no matched alleles
                 alleles = (rec.ref, rec.alts[0])
                 if alleles in allele_cb:
