@@ -1,2 +1,4 @@
 # don't track
 playground/
+.ipynb_checkpoints/
+
