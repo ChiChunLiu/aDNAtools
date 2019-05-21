@@ -23,3 +23,12 @@ TO DO:
 
 2. vcf2eigenstrat_wgs.py (for vcf files subset into array position)
   - fill not variants not presenting in vcf files in as homozygous as reference. Removes inconsistent variants. 
+
+3. subset_eigenstrat.py
+  - subset eigenstrat file with population:number table/population/sample ID
+
+4. eigenstratQC.py
+  - compute fraction of missing entries per individual and per snp
+
+5. eigenstrat_a0asRef.py
+  - set a0 in eigenstrat file as reference

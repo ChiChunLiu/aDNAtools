@@ -39,8 +39,8 @@ def find_missing(geno_file, shape):
 
 
 M = find_missing(args.input + '.geno', (p, n))
-snp_miss = np.asarray(M.sum(axis = 0))[0] / n
-ind_miss = np.asarray(M.sum(axis = 1))[:,0] / p
+ind_miss = np.asarray(M.sum(axis = 0))[0] / p
+snp_miss = np.asarray(M.sum(axis = 1))[:,0] / n
 
 np.savetxt(args.output + '.snp.miss', snp_miss, fmt='%.4f')
 np.savetxt(args.output + '.ind.miss', ind_miss, fmt='%.4f')
