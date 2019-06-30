@@ -31,7 +31,7 @@ def find_missing(geno_file, shape):
             c_idx = [i for i,g in enumerate(gline) if g == '9']
             if c_idx:
                 r_idx = list(np.repeat(p, len(c_idx)))
-                d = list(np.repeat(1, len(c_idx)))s
+                d = list(np.repeat(1, len(c_idx)))
                 row.extend(r_idx)
                 col.extend(c_idx)
                 data.extend(d)
